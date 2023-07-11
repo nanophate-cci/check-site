@@ -22,8 +22,9 @@ jobs:
       - run:
           name: RSpec split
           command: |
-            circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command ">split_files.txt xargs echo" --verbose --split-by=timings
-            mapfile -t test_files < split_files.txt
+            read -ra globs <<< "spec/**/*_spec.rb,spec/**/*_spec.rb"
+            
+            test_files=$(circleci tests glob "${globs[@]}" | circleci tests run --command "xargs echo" --verbose --split-by=timings | tail -n 1)
             echo "======"
             echo "${test_files[@]}"
             echo "======"
