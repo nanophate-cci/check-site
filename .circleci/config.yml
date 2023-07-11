@@ -21,10 +21,8 @@ jobs:
           key: gem-2
       - run:
           name: RSpec split
-          command: |
-            read -ra globs <<< "spec/**/*_spec.rb,spec/**/*_spec.rb"
-            
-            test_files=$(circleci tests glob "${globs[@]}" | circleci tests run --command "xargs echo" --verbose --split-by=timings | tail -n 1)
+          command: |            
+            test_files=$(circleci tests glob "spec/**/*_spec.rb | circleci tests run --command "xargs echo" --verbose --split-by=timings | tail -n 1)
             echo "======"
             echo "${test_files[@]}"
             echo "======"
