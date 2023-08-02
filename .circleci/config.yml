@@ -21,12 +21,8 @@ jobs:
           key: gem-2
       - run:
           name: RSpec split
-          command: |            
-            test_files=($(circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command "xargs echo" --verbose --split-by=timings | tail -n 1))
-            echo "======"
-            echo "${test_files[@]}"
-            echo "======"
-            bundle exec rspec "${test_files[@]}" --profile 10 --format RspecJunitFormatter --out ~/rspec/rspec.xml --format progress
+          command: |
+            circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command "xargs bundle exec rspec --profile 10 --format RspecJunitFormatter --out ~/rspec/rspec.xml --format progress" --verbose --split-by=timing
 
       - store_test_results:
           path: ~/rspec/rspec.xml
