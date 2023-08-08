@@ -24,7 +24,7 @@ jobs:
           name: RSpec split
           command: |            
             circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings
-\
+
             # bundle exec rspec "${test_files[@]}" --profile 10 --format RspecJunitFormatter --out ~/rspec/rspec.xml --format progress
 
       - store_test_results:
